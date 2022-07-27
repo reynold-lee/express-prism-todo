@@ -1,4 +1,7 @@
-import { objectType, extendType, stringArg, intArg } from 'nexus'
+import { objectType, extendType, stringArg, intArg, nonNull } from 'nexus'
+const {
+    ForbiddenError
+} = require('apollo-server');
 
 export const user = objectType({
     name: "User",
@@ -29,7 +32,14 @@ export const UserQuery = extendType({
                 skip: intArg(),
                 take: intArg(),
             },
-            resolve(parent, args, context) {
+            async resolve(parent, args, context) {
+                if (!context.userId) throw new ForbiddenError('Please Login.')
+                const user = await context.prisma.user.findUnique({ where: { id: context.userId } })
+                if (!user) throw new ForbiddenError('User not found.');
+
+                if (user.role !== 'ADMIN') {
+                    throw new ForbiddenError('You are not allowed.')
+                }
                 const where = args.search
                     ? {
                         OR: [
@@ -46,14 +56,22 @@ export const UserQuery = extendType({
             }
         })
 
-        t.nonNull.field('user', {
+        t.field('user', {
             type: 'User',
             args: {
-                id: intArg(),
+                id: nonNull(intArg()),
             },
-            resolve(parent, args, context) {
+            async resolve(parent, args, context) {
+                if (!context.userId) throw new ForbiddenError('Please Login.')
+                const user = await context.prisma.user.findUnique({ where: { id: context.userId } })
+                if (!user) throw new ForbiddenError('User not found.');
+
+                if (user.role !== 'ADMIN') {
+                    throw new ForbiddenError('You are not allowed.')
+                }
                 return context.prisma.user.findUnique({ where: { id: args?.id as number | undefined, } })
             }
         })
     }
 })
+

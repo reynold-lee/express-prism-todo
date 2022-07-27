@@ -60,14 +60,14 @@ export const AuthMutation = extendType({
                     where: { email: args.email },
                 })
                 if (!user) {
-                    throw new AuthenticationError("Email or password is not match")
+                    throw new AuthenticationError("Email or password does not match")
                 }
                 const valid = await bcrypt.compare(
                     args.password,
                     user.password,
                 )
                 if (!valid) {
-                    throw new AuthenticationError("Email or password is not match")
+                    throw new AuthenticationError("Email or password does not match")
                 }
                 const token = jwt.sign({ userId: user.id }, APP_SECRET)
                 return {

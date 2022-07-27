@@ -19,12 +19,17 @@ type Mutation {
   patch(acronym_form: String, full_form: String, id: Int!): Acronym
   post(acronym_form: String!, full_form: String!): Acronym!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  todoDelete(id: Int!): Todo!
+  todopatch(content: String!, id: Int!, title: String!): Todo!
+  todopost(content: String!, title: String!): Todo!
 }
 
 type Query {
   acronym(id: Int): Acronym
   acronyms(search: String, skip: Int, take: Int): [Acronym!]!
-  user(id: Int): User!
+  todo(id: Int): Todo
+  todos(search: String, skip: Int, take: Int): [Todo!]!
+  user(id: Int!): User
   users(search: String, skip: Int, take: Int): [User!]!
 }
 

@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client'
+import * as bcrypt from 'bcryptjs'
+
 import acronymJson from '../acronym.json'
+
 const prisma = new PrismaClient()
 
 async function main() {
@@ -8,6 +11,15 @@ async function main() {
             acronym_form: Object.keys(acronym)[0],
             full_form: Object.values(acronym)[0],
         }))
+    })
+
+    await prisma.user.create({
+        data: {
+            name: 'admin',
+            email: 'admin@todo.com',
+            password: await bcrypt.hash('password', 10),
+            role: 'ADMIN'
+        }
     })
 }
 

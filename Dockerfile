@@ -14,5 +14,7 @@ COPY ./src ./src
 # Installs all packages
 RUN npm install
 
+RUN npx prisma db seed
+
 # Runs the dev npm script to build & start the server
 CMD npm run dev

@@ -79,11 +79,16 @@ export interface NexusGenFieldTypes {
     patch: NexusGenRootTypes['Acronym'] | null; // Acronym
     post: NexusGenRootTypes['Acronym']; // Acronym!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    todoDelete: NexusGenRootTypes['Todo']; // Todo!
+    todopatch: NexusGenRootTypes['Todo']; // Todo!
+    todopost: NexusGenRootTypes['Todo']; // Todo!
   }
   Query: { // field return type
     acronym: NexusGenRootTypes['Acronym'] | null; // Acronym
     acronyms: NexusGenRootTypes['Acronym'][]; // [Acronym!]!
-    user: NexusGenRootTypes['User']; // User!
+    todo: NexusGenRootTypes['Todo'] | null; // Todo
+    todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
+    user: NexusGenRootTypes['User'] | null; // User
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Todo: { // field return type
@@ -118,10 +123,15 @@ export interface NexusGenFieldTypeNames {
     patch: 'Acronym'
     post: 'Acronym'
     signup: 'AuthPayload'
+    todoDelete: 'Todo'
+    todopatch: 'Todo'
+    todopost: 'Todo'
   }
   Query: { // field return type name
     acronym: 'Acronym'
     acronyms: 'Acronym'
+    todo: 'Todo'
+    todos: 'Todo'
     user: 'User'
     users: 'User'
   }
@@ -164,6 +174,18 @@ export interface NexusGenArgTypes {
       name: string; // String!
       password: string; // String!
     }
+    todoDelete: { // args
+      id: number; // Int!
+    }
+    todopatch: { // args
+      content: string; // String!
+      id: number; // Int!
+      title: string; // String!
+    }
+    todopost: { // args
+      content: string; // String!
+      title: string; // String!
+    }
   }
   Query: {
     acronym: { // args
@@ -174,8 +196,16 @@ export interface NexusGenArgTypes {
       skip?: number | null; // Int
       take?: number | null; // Int
     }
-    user: { // args
+    todo: { // args
       id?: number | null; // Int
+    }
+    todos: { // args
+      search?: string | null; // String
+      skip?: number | null; // Int
+      take?: number | null; // Int
+    }
+    user: { // args
+      id: number; // Int!
     }
     users: { // args
       search?: string | null; // String
