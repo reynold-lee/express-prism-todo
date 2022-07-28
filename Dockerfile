@@ -1,6 +1,8 @@
 # Installs Node.js image
 FROM node:16.13.1-alpine3.14
 
+RUN npm install
+
 # sets the working directory for any RUN, CMD, COPY command
 # all files we put in the Docker container running the server will be in /usr/src/app (e.g. /usr/src/app/package.json)
 WORKDIR /usr/src/app
@@ -12,7 +14,7 @@ COPY ["package.json", "package-lock.json", "tsconfig.json", ".env", "./"]
 COPY ./src ./src
 
 # Installs all packages
-RUN npm install
+RUN npx prisma generate
 
 RUN npx prisma db seed
 
