@@ -1,21 +1,47 @@
-import { ApolloServer } from 'apollo-server'
+import express from 'express'
+import { ApolloServer } from 'apollo-server-express'
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+} from 'apollo-server-core'
+import fs from 'fs'
+import https from 'https'
+import http from 'http'
 
 import { schema } from './schema'
 import { context } from './context'
 
-const corsOptions = {
-    origin: "http://localhost:3000",
-    credentials: true
-};
+async function startApolloServer() {
+  const config = { ssl: false, port: 5000, hostname: 'localhost' };
 
-export const server = new ApolloServer({
+  const server = new ApolloServer({
     schema,
     context,
-    cors: corsOptions
-})
+    csrfPrevention: true,
+    cache: 'bounded',
+    plugins: [
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ],
+  })
+  await server.start()
+  const app = express();
+  server.applyMiddleware({
+    app,
+    cors: {
+      origin: "http://localhost:3000"
+    },
+  })
+  const httpServer = http.createServer(app);
 
-const port = 5000;
+  await new Promise<void>(resolve =>
+    httpServer.listen({ port: config.port }, resolve)
+  );
 
-server.listen({ port }).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`)
-})
+  console.log(
+    '🚀 Server ready at',
+    `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}`
+  );
+
+  return { server, app };
+}
+
+startApolloServer()

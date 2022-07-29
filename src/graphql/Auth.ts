@@ -17,6 +17,32 @@ export const Authpayload = objectType({
     }
 })
 
+export const CurrentUserpayload = objectType({
+    name: 'CurrentUserpayload',
+    definition(t) {
+        t.nonNull.field('user', {
+            type: 'User',
+        })
+    }
+})
+
+export const CurrentUserQuery = extendType({
+    type: 'Query',
+    definition(t) {
+        t.field('getCurrentUser', {
+            type: 'CurrentUserpayload',
+            async resolve(parent, args, context) {
+                if (!context.userId) throw new AuthenticationError("please log in")
+                const user = await context.prisma.user.findUnique({ where: { id: context.userId } })
+                if (!user) {
+                    throw new AuthenticationError("Please, log in.")
+                }
+                return { user }
+            }
+        })
+    }
+})
+
 export const AuthMutation = extendType({
     type: 'Mutation',
     definition(t) {

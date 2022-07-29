@@ -10,7 +10,7 @@ import type { Context } from "./src/context"
 
 
 declare global {
-  interface NexusGen extends NexusGenTypes {}
+  interface NexusGen extends NexusGenTypes { }
 }
 
 export interface NexusGenInputs {
@@ -35,6 +35,9 @@ export interface NexusGenObjects {
   }
   AuthPayload: { // root type
     token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
+  CurrentUserpayload: { // root type
     user: NexusGenRootTypes['User']; // User!
   }
   Mutation: {};
@@ -73,6 +76,9 @@ export interface NexusGenFieldTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  CurrentUserpayload: { // field return type
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: { // field return type
     delete: NexusGenRootTypes['Acronym']; // Acronym!
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
@@ -86,6 +92,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     acronym: NexusGenRootTypes['Acronym'] | null; // Acronym
     acronyms: NexusGenRootTypes['Acronym'][]; // [Acronym!]!
+    getCurrentUser: NexusGenRootTypes['CurrentUserpayload']; // CurrentUserpayload
     todo: NexusGenRootTypes['Todo'] | null; // Todo
     todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
     user: NexusGenRootTypes['User'] | null; // User
@@ -117,6 +124,9 @@ export interface NexusGenFieldTypeNames {
     token: 'String'
     user: 'User'
   }
+  CurrentUserpayload: { // field return type name
+    user: 'User'
+  }
   Mutation: { // field return type name
     delete: 'Acronym'
     login: 'AuthPayload'
@@ -130,6 +140,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     acronym: 'Acronym'
     acronyms: 'Acronym'
+    getCurrentUser: 'CurrentUserpayload'
     todo: 'Todo'
     todos: 'Todo'
     user: 'User'

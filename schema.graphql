@@ -13,6 +13,10 @@ type AuthPayload {
   user: User!
 }
 
+type CurrentUserpayload {
+  user: User!
+}
+
 type Mutation {
   delete(id: Int!): Acronym!
   login(email: String!, password: String!): AuthPayload!
@@ -27,6 +31,7 @@ type Mutation {
 type Query {
   acronym(id: Int): Acronym
   acronyms(search: String, skip: Int, take: Int): [Acronym!]!
+  getCurrentUser: CurrentUserpayload
   todo(id: Int): Todo
   todos(search: String, skip: Int, take: Int): [Todo!]!
   user(id: Int!): User
