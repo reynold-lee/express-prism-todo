@@ -32,7 +32,7 @@ type Query {
   acronym(id: Int): Acronym
   acronyms(search: String, skip: Int, take: Int): [Acronym!]!
   getCurrentUser: CurrentUserpayload
-  todo(id: Int): Todo
+  todo(id: Int!): Todo
   todos(search: String, skip: Int, take: Int): [Todo!]!
   user(id: Int!): User
   users(search: String, skip: Int, take: Int): [User!]!

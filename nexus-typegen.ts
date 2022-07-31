@@ -10,7 +10,7 @@ import type { Context } from "./src/context"
 
 
 declare global {
-  interface NexusGen extends NexusGenTypes { }
+  interface NexusGen extends NexusGenTypes {}
 }
 
 export interface NexusGenInputs {
@@ -92,7 +92,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     acronym: NexusGenRootTypes['Acronym'] | null; // Acronym
     acronyms: NexusGenRootTypes['Acronym'][]; // [Acronym!]!
-    getCurrentUser: NexusGenRootTypes['CurrentUserpayload']; // CurrentUserpayload
+    getCurrentUser: NexusGenRootTypes['CurrentUserpayload'] | null; // CurrentUserpayload
     todo: NexusGenRootTypes['Todo'] | null; // Todo
     todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
     user: NexusGenRootTypes['User'] | null; // User
@@ -208,7 +208,7 @@ export interface NexusGenArgTypes {
       take?: number | null; // Int
     }
     todo: { // args
-      id?: number | null; // Int
+      id: number; // Int!
     }
     todos: { // args
       search?: string | null; // String

@@ -2,15 +2,15 @@ import * as jwt from "jsonwebtoken";
 
 export const APP_SECRET = "GraphQL-is-aw3some";
 
-export interface AuthTokenPayload {  // 1
-    userId: number;
+export interface AuthTokenPayload {
+  userId: number;
 }
 
-export function decodeAuthHeader(authHeader: String): AuthTokenPayload { // 2
-    const token = authHeader.replace("Bearer ", "");  // 3
+export function decodeAuthHeader(authHeader: String): AuthTokenPayload {
+  const token = authHeader.replace("Bearer ", "");
 
-    if (!token) {
-        throw new Error("No token found");
-    }
-    return jwt.verify(token, APP_SECRET) as AuthTokenPayload;
+  if (!token) {
+    throw new Error("No token found");
+  }
+  return jwt.verify(token, APP_SECRET) as AuthTokenPayload;
 }
